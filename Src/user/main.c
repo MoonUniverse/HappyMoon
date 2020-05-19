@@ -48,9 +48,12 @@ void StartDefaultTask(void *argument)
 
   //消息队列创建
   USER_MessageQueueCreate();
+  //
   for(;;)
   {
-    osDelay(5000);
+    // debug os is successful
+    HAL_GPIO_WritePin(GPIOE,GPIO_PIN_7,1-HAL_GPIO_ReadPin(GPIOE,GPIO_PIN_7));
+    osDelay(1000);
   }
   /* USER CODE END 5 */ 
 }

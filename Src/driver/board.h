@@ -2,10 +2,12 @@
 #define __BOARD_H
 
 #include "stm32f4xx_hal.h"
+#include "stm32f4xx_hal_rcc_ex.h"
 #include "spi.h"
+#include "stm32f4xx_it.h"
 // #include "mcpwm.h"
 // #include "Adc_Battery.h"
-// #include "General_Gpio.h"
+#include "general_gpio.h"
 // #include "Usart3toBluetooth.h"
 // #include "Uart4toTOF.h"
 // #include "Sensor.h"

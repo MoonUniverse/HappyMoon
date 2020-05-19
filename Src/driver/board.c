@@ -15,7 +15,7 @@
 *返 回 值: 无
 *********************************************************************************/
 void SystemClock_Config(void);
-static void MX_GPIO_Init(void);
+static void MX_RCC_Init(void);
 void Board_Init(void)
 {
     HAL_Init();
@@ -24,12 +24,16 @@ void Board_Init(void)
     SystemClock_Config();
     SoftDelayMs(50);
     /* Initialize all configured peripherals */
-    MX_GPIO_Init();
+    MX_RCC_Init();
+    SoftDelayMs(50);
+    /* led init */
+    GeneralGpio_Init();
     SoftDelayMs(50);
     /* SPI2init ICM20602 */
     Spi_GPIO_Init();
-    // Spi_Open();
-    // SoftDelayMs(50);
+    SoftDelayMs(50);
+    Spi_Open();
+    SoftDelayMs(50);
     /* init code for USB_DEVICE */
     MX_USB_DEVICE_Init();
     SoftDelayMs(50);
@@ -79,17 +83,19 @@ void SystemClock_Config(void)
 }
 
 /**
-  * @brief GPIO Initialization Function
+  * @brief RCC Initialization Function
   * @param None
   * @retval None
   */
-static void MX_GPIO_Init(void)
+static void MX_RCC_Init(void)
 {
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOE_CLK_ENABLE();
 
+  __HAL_RCC_SPI2_CLK_ENABLE();
 }
 
 /**
@@ -111,18 +117,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   /* USER CODE BEGIN Callback 1 */
 
   /* USER CODE END Callback 1 */
-}
-
-/**
-  * @brief  This function is executed in case of error occurrence.
-  * @retval None
-  */
-void Error_Handler(void)
-{
-  /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
-
-  /* USER CODE END Error_Handler_Debug */
 }
 
 /**********************************************************************************************************

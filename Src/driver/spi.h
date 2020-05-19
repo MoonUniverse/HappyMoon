@@ -4,6 +4,7 @@
 #include "stm32f4xx_hal_spi.h"
 #include "stm32f4xx_hal_gpio.h"
 #include "boardConfig.h"
+#include "stm32f4xx_it.h"
 
 #ifndef NULL
 #define NULL    0
