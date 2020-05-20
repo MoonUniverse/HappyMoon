@@ -2,6 +2,7 @@
 #define __DATATRANS_H
 
 #include "vector3.h"
+#include "usbd_cdc_if.h"
 typedef union{
 	unsigned char cv[4];
 	float fv;

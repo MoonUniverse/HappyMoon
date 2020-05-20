@@ -1,5 +1,4 @@
 #include "datatrans.h"
-
 void SendIMUdata(Vector3f_t* accRawData, Vector3f_t* gyroRawData){
     float_union temp_imu_data[6];
     uint8_t datatopc[28];
@@ -20,7 +19,7 @@ void SendIMUdata(Vector3f_t* accRawData, Vector3f_t* gyroRawData){
 	datatopc[26] = '\r';
 	datatopc[27] = '\n';
 
-	// Usb_Send(datatopc,28);
+	CDC_Transmit_FS(datatopc,28);
 }
 
 

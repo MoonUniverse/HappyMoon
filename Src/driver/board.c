@@ -31,7 +31,6 @@ void Board_Init(void)
     SoftDelayMs(50);
     /* SPI2init ICM20602 */
     Spi_GPIO_Init();
-    SoftDelayMs(50);
     Spi_Open();
     SoftDelayMs(50);
     /* init code for USB_DEVICE */
