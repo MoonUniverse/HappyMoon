@@ -11,6 +11,7 @@
 #include "board.h"
 #include "messageQueue.h"
 #include "module_task.h"
+#include "sensor_task.h"
 
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;

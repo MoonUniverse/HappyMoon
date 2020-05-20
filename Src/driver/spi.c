@@ -72,9 +72,8 @@ void Spi_Open(void)
 **********************************************************************************************************/
 uint8_t Spi_SingleWirteAndRead(uint8_t dat)
 {
-    HAL_SPI_Transmit(&hspi2,&dat,1,100);
     uint8_t rec_data;
-    HAL_SPI_Receive(&hspi2,&rec_data,1,100);
+    HAL_SPI_TransmitReceive(&hspi2,&dat,&rec_data,1,10);
     return rec_data;
 }
 
@@ -87,14 +86,13 @@ uint8_t Spi_SingleWirteAndRead(uint8_t dat)
 **********************************************************************************************************/
 void SPI_MultiWriteAndRead(uint8_t *out, uint8_t *in, int len)
 {
-    uint8_t b;
+    uint8_t b,c;
     while (len--)
     {
         b = in ? *(in++) : 0xFF;
-        HAL_SPI_Transmit(&hspi2,&b,1,100);
-        HAL_SPI_Receive(&hspi2,&b,1,100);
+        HAL_SPI_TransmitReceive(&hspi2,&b,&c,1,10);
         if (out)
-            *(out++) = b;
+            *(out++) = c;
     }
 }
 
