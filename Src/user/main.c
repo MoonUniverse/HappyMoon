@@ -10,6 +10,7 @@
 #include "main.h"
 #include "board.h"
 #include "messageQueue.h"
+#include "module_task.h"
 
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
@@ -45,10 +46,12 @@ int main(void)
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void *argument)
 {
-
   //消息队列创建
-  USER_MessageQueueCreate();
-  //
+  MessageQueueCreate();
+  //传感器及模块数据读取任务创建
+  ModuleTaskCreate();
+  //传感器数据预处理任务创建
+  SensorTaskCreate();  
   for(;;)
   {
     // debug os is successful

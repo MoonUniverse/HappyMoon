@@ -18,7 +18,7 @@ QueueHandle_t messageQueue[QUEUE_NUM];
 *形    参: 无
 *返 回 值: 无
 **********************************************************************************************************/
-void USER_MessageQueueCreate(void)
+void MessageQueueCreate(void)
 {
     messageQueue[ACC_SENSOR_READ] =  xQueueCreate(2, sizeof(Vector3f_t *));
     messageQueue[GYRO_SENSOR_READ] =  xQueueCreate(2, sizeof(Vector3f_t *));

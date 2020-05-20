@@ -3,7 +3,7 @@
 
 #include "TaskConfig.h"
 
-void USER_MessageQueueCreate(void);
+void MessageQueueCreate(void);
 
 #endif
 

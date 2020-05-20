@@ -8,7 +8,7 @@
 //  * @日期     2018 ~
 // *********************************************************************************/
 #include "TaskConfig.h"
-
+#include "cmsis_os.h"
 #include "module.h"
 
 //声明任务句柄
@@ -21,7 +21,7 @@ const osThreadAttr_t imuSensorReadTask_attributes = {
 
 /**********************************************************************************************************
 *函 数 名: vImuSensorReadTask
-*功能说明: IMU传感器数据读取任务，此任务具有最高优先级，运行频率为1KHz
+*功能说明: IMU传感器数据读取任务，此任务具有最高优先级，运行频率为500Hz
 *形    参: 无
 *返 回 值: 无
 **********************************************************************************************************/
@@ -58,74 +58,9 @@ void vImuSensorReadTask(void *argument)
         xQueueSendToBack(messageQueue[TEMP_SENSOR_READ],  (void *)&tempRawData, 0);
 
         //睡眠1ms
-        vTaskDelayUntil(&xLastWakeTime, (1 / portTICK_RATE_MS));
+        vTaskDelayUntil(&xLastWakeTime, (2 / portTICK_RATE_MS));
     }
 }
-
-// /**********************************************************************************************************
-// *函 数 名: vSensorUpdateTask
-// *功能说明: IMU之外的传感器数据更新任务
-// *形    参: 无
-// *返 回 值: 无
-// **********************************************************************************************************/
-// // portTASK_FUNCTION(vSensorUpdateTask, pvParameters)
-// // {
-// //     portTickType xLastWakeTime;
-// //     static uint16_t count = 0;
-
-// //     //挂起调度器
-// //     vTaskSuspendAll();
-
-// //     //地磁传感器初始化
-// //     MagSensorInit();
-// //     //气压传感器初始化
-// //     BaroSensorInit();
-
-// //     //唤醒调度器
-// //     xTaskResumeAll();
-
-// //     //GPS模块初始化
-// //     GPSModuleInit();
-
-// //     xLastWakeTime = xTaskGetTickCount();
-// //     for(;;)
-// //     {
-// //         //地磁传感器数据更新 100Hz
-// //         if(count % 2 == 0)
-// //         {
-// //             vTaskSuspendAll();
-// //             MagSensorUpdate();
-// //             xTaskResumeAll();
-// //         }
-
-// //         //气压传感器数据更新 50Hz
-// //         if(count % 4 == 0)
-// //         {
-// //             //读取气压计数据时挂起调度器，防止SPI总线冲突
-// //             vTaskSuspendAll();
-// //             BaroSensorUpdate();
-// //             xTaskResumeAll();
-// //         }
-
-// //         //飞控参数保存(参数有更新才会执行）20Hz
-// //         if(count % 10 == 0)
-// //         {
-// //             ParamSaveToFlash();
-// //         }
-
-// //         //电池电压电流采样更新 200Hz
-// //         BatteryVoltageUpdate();
-// //         BatteryCurrentUpdate();
-
-// //         //RGB闪烁
-// //         RGB_Flash();
-        
-// //         count++;
-
-// //         //睡眠5ms
-// //         vTaskDelayUntil(&xLastWakeTime, (5 / portTICK_RATE_MS));
-// //     }
-// // }
 
 /**********************************************************************************************************
 *函 数 名: ModuleTaskCreate
@@ -138,28 +73,6 @@ void ModuleTaskCreate(void)
     imuSensorReadTaskHandle = osThreadNew(vImuSensorReadTask, NULL, &imuSensorReadTask_attributes);
 }
 
-
-// /**********************************************************************************************************
-// *函 数 名: GetImuSensorReadTaskStackRemain
-// *功能说明: 获取任务堆栈使用剩余
-// *形    参: 无
-// *返 回 值: 无
-// **********************************************************************************************************/
-// int16_t	GetImuSensorReadTaskStackRemain(void)
-// {
-//     return uxTaskGetStackHighWaterMark(imuSensorReadTask);
-// }
-
-// /**********************************************************************************************************
-// *函 数 名: GetSensorUpdateTaskStackRemain
-// *功能说明: 获取任务堆栈使用剩余
-// *形    参: 无
-// *返 回 值: 无
-// **********************************************************************************************************/
-// // int16_t	GetSensorUpdateTaskStackRemain(void)
-// // {
-// //     return uxTaskGetStackHighWaterMark(sensorUpdateTask);
-// // }
 
 
 
