@@ -458,7 +458,7 @@ static uint8_t USBD_CDC_Init(USBD_HandleTypeDef *pdev, uint8_t cfgidx)
   UNUSED(cfgidx);
   USBD_CDC_HandleTypeDef *hcdc;
 
-  hcdc = USBD_malloc(sizeof(USBD_CDC_HandleTypeDef));
+  hcdc = (void *)USBD_malloc(sizeof(USBD_CDC_HandleTypeDef));
 
   if (hcdc == NULL)
   {
