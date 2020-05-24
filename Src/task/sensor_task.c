@@ -10,7 +10,6 @@
 #include "TaskConfig.h"
 
 #include "gyroscope.h"
-#include "accelerometer.h"
 #include "cmsis_os.h"
 #include "datatrans.h"
 
@@ -39,6 +38,8 @@ void vImuDataPreTreatTask(void *argument)
 
     //挂起调度器
     vTaskSuspendAll();
+    
+    GyroPreTreatInit();
 
     //唤醒调度器
     xTaskResumeAll();

@@ -415,7 +415,7 @@ void ICM20602_ReadAcc(Vector3f_t* acc)
 
     //统一传感器坐标系（并非定义安装方向）
     accRaw.x = accRaw.x;
-    accRaw.y = -accRaw.y;
+    accRaw.y = accRaw.y;
     accRaw.z = accRaw.z;
 
     acc->x = (float)accRaw.x * MPU_A_8mg;
@@ -442,8 +442,8 @@ void ICM20602_ReadGyro(Vector3f_t* gyro)
 
     //统一传感器坐标系（并非定义安装方向）
     gyroRaw.x = gyroRaw.x;
-    gyroRaw.y = -gyroRaw.y;
-    gyroRaw.z = -gyroRaw.z;
+    gyroRaw.y = gyroRaw.y;
+    gyroRaw.z = gyroRaw.z;
 
     gyro->x = gyroRaw.x * MPU_G_s2000dps;
     gyro->y = gyroRaw.y * MPU_G_s2000dps;

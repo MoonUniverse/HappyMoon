@@ -52,11 +52,13 @@ Src/driver/spi.c \
 Src/driver/general_gpio.c \
 Src/math/mathTool.c \
 Src/math/vector3.c \
+Src/math/lowPassFilter.c \
 Src/task/module_task.c \
 Src/task/sensor_task.c \
 Src/module/module.c \
 Src/module/icm20602.c \
 Src/datatrans/datatrans.c \
+Src/sensor/gyroscope.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd_ex.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.c \
