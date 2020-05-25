@@ -10,8 +10,10 @@
 #include "TaskConfig.h"
 
 #include "gyroscope.h"
+#include "accelerometer.h"
 #include "cmsis_os.h"
 #include "datatrans.h"
+#include "MahonyAHRS.h"
 
 //声明任务句柄
 osThreadId_t imuDataPreTreatTaskHandle;
@@ -32,15 +34,16 @@ void vImuDataPreTreatTask(void *argument)
     Vector3f_t* gyroRawData;
     Vector3f_t* accRawData;
     float*      tempRawData;
-    // Vector3f_t* accData  = pvPortMalloc(sizeof(Vector3f_t));
-    // Vector3f_t* gyroData = pvPortMalloc(sizeof(Vector3f_t));
-    // Vector3f_t* gyroLpfData = pvPortMalloc(sizeof(Vector3f_t));
+    Vector3f_t* accData  = pvPortMalloc(sizeof(Vector3f_t));
+    Vector3f_t* gyroData = pvPortMalloc(sizeof(Vector3f_t));
+    Vector3f_t* gyroLpfData = pvPortMalloc(sizeof(Vector3f_t));
 
     //挂起调度器
     vTaskSuspendAll();
-    
+    //陀螺仪预处理初始化
     GyroPreTreatInit();
-
+    //加速度预处理初始化
+    AccPreTreatInit();
     //唤醒调度器
     xTaskResumeAll();
 
@@ -52,12 +55,16 @@ void vImuDataPreTreatTask(void *argument)
         xQueueReceive(messageQueue[TEMP_SENSOR_READ], &tempRawData, (2 / portTICK_RATE_MS));
         //500hz
         SendIMUdata(accRawData,gyroRawData);
-            
+        //Process imu data
+        GyroDataPreTreat(*gyroRawData,*tempRawData,gyroData,gyroLpfData);
+        AccDataPreTreat(*accRawData,accData);  
+        //AHRS (mahony)
+        MahonyAHRSupdateIMU(gyroData->x,gyroData->y,gyroData->z,accData->x,accData->y,accData->z);
 
-        // //往下一级消息队列中填充数据
-        // xQueueSendToBack(messageQueue[ACC_DATA_PRETREAT], (void *)&accData, 0);
-        // xQueueSendToBack(messageQueue[GYRO_DATA_PRETREAT], (void *)&gyroData, 0);
-        // xQueueSendToBack(messageQueue[GYRO_FOR_CONTROL], (void *)&gyroLpfData, 0);
+        //往下一级消息队列中填充数据
+        xQueueSendToBack(messageQueue[ACC_DATA_PRETREAT], (void *)&accData, 0);
+        xQueueSendToBack(messageQueue[GYRO_DATA_PRETREAT], (void *)&gyroData, 0);
+        xQueueSendToBack(messageQueue[GYRO_FOR_CONTROL], (void *)&gyroLpfData, 0);
     }
 }
 

@@ -1,33 +1,29 @@
 #ifndef __ACCELEROMETER_H
 #define	__ACCELEROMETER_H
 
-#include "sensor.h"
 #include "mathTool.h"
+#include "lowPassFilter.h"
+
+//加速度低通滤波截止频率
+#define ACC_LPF_CUT 256
+
+#define ACC_OFFSET_X  -0.0096941913357466
+#define ACC_OFFSET_Y   0.0170283304696589
+#define ACC_OFFSET_Z   0.0033805968625082
+#define ACC_SCALE_X  0.999020485325288
+#define ACC_SCALE_Y  0.999590891231954
+#define ACC_SCALE_Z  1.002115531775808
 
 typedef struct {
     Vector3f_t data;
     Vector3f_t dataLpf;
-    float mag;
-    float vibraCoef;
     LPF2ndData_t lpf_2nd;
-    SENSOR_CALI_t cali;
-    SENSOR_CALI_t levelCali;
+
 } ACCELEROMETER_t;
 
 void AccPreTreatInit(void);
 void AccDataPreTreat(Vector3f_t accRaw, Vector3f_t* accData);
-void AccCalibration(Vector3f_t accRaw);
-void AccScaleCalibrate(Vector3f_t* acc);
-void ImuLevelCalibration(void);
 
-Vector3f_t GetAccOffsetCaliData(void);
-Vector3f_t GetAccScaleCaliData(void);
-Vector3f_t GetLevelCalibraData(void);
-
-void AccCalibrateEnable(void);
-void LevelCalibrateEnable(void);
-
-float GetAccMag(void);
 Vector3f_t AccGetData(void);
 Vector3f_t AccLpfGetData(void);
 

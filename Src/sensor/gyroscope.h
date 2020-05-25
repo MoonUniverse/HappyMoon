@@ -13,6 +13,13 @@
 //450轴距左右的飞机，截止频率不低于50就好，要根据实际情况选取，比如有时过软的硬件减震措施也会增加实际信号延迟
 #define GYRO_LPF_CUT 256
 
+#define GYRO_OFFSET_X  -0.1037629246711731
+#define GYRO_OFFSET_Y  -0.0836207419633865
+#define GYRO_OFFSET_Z  -0.4862610399723053
+#define GYRO_SCALE_X  1.0
+#define GYRO_SCALE_Y  1.0
+#define GYRO_SCALE_Z  1.0
+
 typedef struct {
     Vector3f_t data;
     Vector3f_t dataLpf;

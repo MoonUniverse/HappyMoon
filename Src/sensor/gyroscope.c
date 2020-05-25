@@ -36,10 +36,10 @@ void GyroDataPreTreat(Vector3f_t gyroRaw, float temperature, Vector3f_t* gyroDat
     //获取温度值
     gyro.temperature = temperature;
 
-    // //零偏误差校准
-    // gyro.data.x = (gyro.data.x - gyro.cali.offset.x) * gyro.cali.scale.x;
-    // gyro.data.y = (gyro.data.y - gyro.cali.offset.y) * gyro.cali.scale.y;
-    // gyro.data.z = (gyro.data.z - gyro.cali.offset.z) * gyro.cali.scale.z;
+    //零偏误差校准
+    gyro.data.x = (gyro.data.x - GYRO_OFFSET_X) * GYRO_SCALE_X;
+    gyro.data.y = (gyro.data.y - GYRO_OFFSET_Y) * GYRO_SCALE_Y;
+    gyro.data.z = (gyro.data.z - GYRO_OFFSET_Z) * GYRO_SCALE_Z;
 
     //低通滤波
     gyro.dataLpf = LowPassFilter2nd(&gyro.lpf_2nd, gyro.data);
