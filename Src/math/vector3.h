@@ -4,6 +4,12 @@
 #include "mathTool.h"
 
 typedef struct {
+    float roll;
+    float pitch;
+    float yaw;
+} Vector3f_angle;
+
+typedef struct {
     float x;
     float y;
     float z;

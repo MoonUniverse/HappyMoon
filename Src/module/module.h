@@ -5,9 +5,8 @@
 
 void GyroSensorInit(void);
 
-void GyroSensorRead(Vector3f_t* gyro);
-void AccSensorRead(Vector3f_t* acc);
-void TempSensorRead(float* temp);
+void GyroAccSensorRead(Vector3f_t* gyro,Vector3f_t* acc);
+
 
 #endif
 

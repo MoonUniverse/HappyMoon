@@ -375,21 +375,21 @@ void ICM20602_Init(void)
     Spi_GyroSingleWrite(MPU_RA_INT_PIN_CFG, 0 << 7 | 0 << 6 | 0 << 5 | 0 << 4 | 0 << 3 | 0 << 2 | 1 << 1 | 0 << 0);
     SoftDelayMs(50);
 
-    //低通滤波频率
-    Spi_GyroSingleWrite(MPU_RA_CONFIG, ICM20602_LPF_250HZ);
-    SoftDelayMs(50);
+    // //低通滤波频率
+    // Spi_GyroSingleWrite(MPU_RA_CONFIG, ICM20602_LPF_250HZ);
+    // SoftDelayMs(50);
 
     //陀螺仪自检及测量范围，典型值0x18(不自检，2000deg/s) (0x10 1000deg/s) (0x10 1000deg/s) (0x08 500deg/s)
-    Spi_GyroSingleWrite(MPU_RA_GYRO_CONFIG, 0x18);
+    Spi_GyroSingleWrite(MPU_RA_GYRO_CONFIG, 0x10);
     SoftDelayMs(50);
 
     //加速度自检、测量范围(不自检，+-8G)
     Spi_GyroSingleWrite(MPU_RA_ACCEL_CONFIG, 2 << 3);
     SoftDelayMs(50);
 
-    //加速度低通滤波设置
-    Spi_GyroSingleWrite(0X1D, ICM20602_LPF_250HZ);
-    SoftDelayMs(50);
+    // //加速度低通滤波设置
+    // Spi_GyroSingleWrite(0X1D, ICM20602_LPF_250HZ);
+    // SoftDelayMs(50);
     //关闭低功耗
 	Spi_GyroSingleWrite(0X1E,0x00);
     SoftDelayMs(50);
@@ -399,74 +399,32 @@ void ICM20602_Init(void)
 }
 
 /**********************************************************************************************************
-*函 数 名: ICM20602_ReadAcc
-*功能说明: ICM20602读取加速度传感器，并转化为标准单位
+*函 数 名: ICM20602_ReadAccGyro
+*功能说明: ICM20602读取加速度陀螺仪传感器，并转化为标准单位
 *形    参: 读出数据指针
 *返 回 值: 无
 **********************************************************************************************************/
-void ICM20602_ReadAcc(Vector3f_t* acc)
-{
-    uint8_t buffer[6];
-    Vector3i_t accRaw;
-    Spi_GyroMultiRead(MPU_RA_ACCEL_XOUT_H, buffer, 6);
-    accRaw.x = ((((int16_t)buffer[0]) << 8) | buffer[1]);
-    accRaw.y = ((((int16_t)buffer[2]) << 8) | buffer[3]);
-    accRaw.z = ((((int16_t)buffer[4]) << 8) | buffer[5]);
+void ICM20602_ReadAccGyro(Vector3f_t *acc ,Vector3f_t *gyro){
+	uint8_t buffer[14];
+	Vector3i_t accRaw,gyroRaw;
+	Spi_GyroMultiRead(MPU_RA_ACCEL_XOUT_H,buffer, 14);
+	//acc
+	accRaw.x = ((((int16_t)buffer[0]) << 8) | buffer[1]);
+	accRaw.y = ((((int16_t)buffer[2]) << 8) | buffer[3]);
+	accRaw.z = ((((int16_t)buffer[4]) << 8) | buffer[5]);
+	//gyro
+	gyroRaw.x = ((((int16_t)buffer[8]) << 8) | buffer[9]);
+    gyroRaw.y = ((((int16_t)buffer[10]) << 8) | buffer[11]);
+    gyroRaw.z = ((((int16_t)buffer[12]) << 8) | buffer[13]);
 
-    //统一传感器坐标系（并非定义安装方向）
-    accRaw.x = accRaw.x;
-    accRaw.y = accRaw.y;
-    accRaw.z = accRaw.z;
-
-    acc->x = (float)accRaw.x * MPU_A_8mg;
-    acc->y = (float)accRaw.y * MPU_A_8mg;
-    acc->z = (float)accRaw.z * MPU_A_8mg;
-
-    SoftDelayUs(1);
-}
-
-/**********************************************************************************************************
-*函 数 名: ICM20602_ReadGyro
-*功能说明: ICM20602读取陀螺仪传感器，并转化为标准单位
-*形    参: 读出数据指针
-*返 回 值: 无
-**********************************************************************************************************/
-void ICM20602_ReadGyro(Vector3f_t* gyro)
-{
-    uint8_t buffer[6];
-    Vector3i_t gyroRaw;
-    Spi_GyroMultiRead(MPU_RA_GYRO_XOUT_H, buffer, 6);
-    gyroRaw.x = ((((int16_t)buffer[0]) << 8) | buffer[1]);
-    gyroRaw.y = ((((int16_t)buffer[2]) << 8) | buffer[3]);
-    gyroRaw.z = ((((int16_t)buffer[4]) << 8) | buffer[5]);
-
-    //统一传感器坐标系（并非定义安装方向）
-    gyroRaw.x = gyroRaw.x;
-    gyroRaw.y = gyroRaw.y;
-    gyroRaw.z = gyroRaw.z;
-
-    gyro->x = gyroRaw.x * MPU_G_s2000dps;
-    gyro->y = gyroRaw.y * MPU_G_s2000dps;
-    gyro->z = gyroRaw.z * MPU_G_s2000dps;
-
-    SoftDelayUs(1);
-}
-
-/**********************************************************************************************************
-*函 数 名: ICM20602_ReadTemp
-*功能说明: ICM20602读取温度传感器
-*形    参: 读出数据指针
-*返 回 值: 无
-**********************************************************************************************************/
-void ICM20602_ReadTemp(float* temp)
-{
-    uint8_t buffer[2];
-    static int16_t temperature_temp;
-    Spi_GyroMultiRead(MPU_RA_TEMP_OUT_H, buffer, 2);
-    temperature_temp = ((((int16_t)buffer[0]) << 8) | buffer[1]);
-    *temp = 25 + (float)temperature_temp / 326.8f;
-
-    SoftDelayUs(1);
+	acc->x = ((float)accRaw.x) * MPU_A_8mg;
+	acc->y = ((float)accRaw.y) * MPU_A_8mg;
+	acc->z = ((float)accRaw.z) * MPU_A_8mg;
+	
+	gyro->x = ((float)gyroRaw.x) * MPU_G_s1000dps * PI/180;
+	gyro->y = ((float)gyroRaw.y) * MPU_G_s1000dps * PI/180;
+	gyro->z = ((float)gyroRaw.z) * MPU_G_s1000dps * PI/180;
+	
 }
 
 

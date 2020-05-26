@@ -29,9 +29,8 @@ void vImuSensorReadTask(void *argument)
 {
     portTickType xLastWakeTime;
 
-    Vector3f_t* accRawData  = pvPortMalloc(sizeof(Vector3f_t));
-    Vector3f_t* gyroRawData = pvPortMalloc(sizeof(Vector3f_t));
-    float*      tempRawData = pvPortMalloc(sizeof(float));
+    Vector3f_t* read_accRawData  = pvPortMalloc(sizeof(Vector3f_t));
+    Vector3f_t* read_gyroRawData = pvPortMalloc(sizeof(Vector3f_t));
 
     //挂起调度器
     vTaskSuspendAll();
@@ -45,19 +44,13 @@ void vImuSensorReadTask(void *argument)
     xLastWakeTime = xTaskGetTickCount();
     for(;;)
     {
-        //读取加速度传感器
-        AccSensorRead(accRawData);
-        //读取陀螺仪传感器
-        GyroSensorRead(gyroRawData);
-        //读取温度传感器
-        TempSensorRead(tempRawData);
+        //读取加速度陀螺仪传感器
+        GyroAccSensorRead(read_gyroRawData,read_accRawData);
 
         //更新消息队列，通知数据预处理任务对IMU数据进行预处理
-        xQueueSendToBack(messageQueue[ACC_SENSOR_READ],  (void *)&accRawData, 0);
-        xQueueSendToBack(messageQueue[GYRO_SENSOR_READ],  (void *)&gyroRawData, 0);
-        xQueueSendToBack(messageQueue[TEMP_SENSOR_READ],  (void *)&tempRawData, 0);
-
-        //睡眠1ms
+        xQueueSendToBack(messageQueue[ACC_SENSOR_READ],  (void *)&read_accRawData, 0);
+        xQueueSendToBack(messageQueue[GYRO_SENSOR_READ],  (void *)&read_gyroRawData, 0);
+        //睡眠2ms
         vTaskDelayUntil(&xLastWakeTime, (2 / portTICK_RATE_MS));
     }
 }

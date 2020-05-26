@@ -29,12 +29,9 @@ void GyroPreTreatInit(void)
 *形    参: 陀螺仪原始数据 陀螺仪预处理数据指针
 *返 回 值: 无
 **********************************************************************************************************/
-void GyroDataPreTreat(Vector3f_t gyroRaw, float temperature, Vector3f_t* gyroData, Vector3f_t* gyroLpfData)
+void GyroDataPreTreat(Vector3f_t gyroRaw, Vector3f_t* gyroData, Vector3f_t* gyroLpfData)
 {
     gyro.data = gyroRaw;
-
-    //获取温度值
-    gyro.temperature = temperature;
 
     //零偏误差校准
     gyro.data.x = (gyro.data.x - GYRO_OFFSET_X) * GYRO_SCALE_X;

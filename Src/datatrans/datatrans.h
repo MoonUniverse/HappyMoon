@@ -8,7 +8,7 @@ typedef union{
 	float fv;
 }float_union;
 
-void SendIMUdata(Vector3f_t* accRawData, Vector3f_t* gyroRawData);
+void SendIMUdata(Vector3f_t* accRawData, Vector3f_t* gyroRawData,Vector3f_angle roll_pitch_yaw);
 
 #endif
 

@@ -28,7 +28,7 @@ typedef struct {
 } GYROSCOPE_t;
 
 void GyroPreTreatInit(void);
-void GyroDataPreTreat(Vector3f_t gyroRaw, float temperature, Vector3f_t* gyroData, Vector3f_t* gyroLpfData);
+void GyroDataPreTreat(Vector3f_t gyroRaw, Vector3f_t* gyroData, Vector3f_t* gyroLpfData);
 
 
 Vector3f_t GyroGetData(void);

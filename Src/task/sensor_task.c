@@ -8,7 +8,7 @@
  * @日期     2018 ~
 *********************************************************************************/
 #include "TaskConfig.h"
-
+#include "board.h"
 #include "gyroscope.h"
 #include "accelerometer.h"
 #include "cmsis_os.h"
@@ -33,11 +33,10 @@ void vImuDataPreTreatTask(void *argument)
 {
     Vector3f_t* gyroRawData;
     Vector3f_t* accRawData;
-    float*      tempRawData;
+
     Vector3f_t* accData  = pvPortMalloc(sizeof(Vector3f_t));
     Vector3f_t* gyroData = pvPortMalloc(sizeof(Vector3f_t));
     Vector3f_t* gyroLpfData = pvPortMalloc(sizeof(Vector3f_t));
-
     //挂起调度器
     vTaskSuspendAll();
     //陀螺仪预处理初始化
@@ -50,17 +49,15 @@ void vImuDataPreTreatTask(void *argument)
     for(;;)
     {
         //从消息队列中获取数据
-        xQueueReceive(messageQueue[GYRO_SENSOR_READ], &gyroRawData, (2 / portTICK_RATE_MS));
-        xQueueReceive(messageQueue[ACC_SENSOR_READ], &accRawData, (2 / portTICK_RATE_MS));
-        xQueueReceive(messageQueue[TEMP_SENSOR_READ], &tempRawData, (2 / portTICK_RATE_MS));
-        //500hz
-        SendIMUdata(accRawData,gyroRawData);
+        xQueueReceive(messageQueue[GYRO_SENSOR_READ], &gyroRawData, (3 / portTICK_RATE_MS));
+        xQueueReceive(messageQueue[ACC_SENSOR_READ], &accRawData, (3 / portTICK_RATE_MS));
         //Process imu data
-        GyroDataPreTreat(*gyroRawData,*tempRawData,gyroData,gyroLpfData);
+        GyroDataPreTreat(*gyroRawData,gyroData,gyroLpfData);
         AccDataPreTreat(*accRawData,accData);  
         //AHRS (mahony)
-        MahonyAHRSupdateIMU(gyroData->x,gyroData->y,gyroData->z,accData->x,accData->y,accData->z);
-
+        MahonyAHRSupdateIMU(gyroRawData->x,gyroRawData->y,gyroRawData->z,accRawData->x,accRawData->y,accRawData->z);
+        //500hz
+        SendIMUdata(accRawData,gyroRawData,GetCopterAngle());
         //往下一级消息队列中填充数据
         xQueueSendToBack(messageQueue[ACC_DATA_PRETREAT], (void *)&accData, 0);
         xQueueSendToBack(messageQueue[GYRO_DATA_PRETREAT], (void *)&gyroData, 0);
