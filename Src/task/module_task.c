@@ -7,16 +7,13 @@
  * @邮箱     jinyuyingwork@gmail.com
  * @日期     2018 ~
 *********************************************************************************/
-#include "TaskConfig.h"
-#include "cmsis_os.h"
-#include "module.h"
-
+#include "module_task.h"
 //声明任务句柄
 osThreadId_t imuSensorReadTaskHandle;
 const osThreadAttr_t imuSensorReadTask_attributes = {
   .name = "imuSensorReadTask",
   .priority = (osPriority_t) osPriorityRealtime,
-  .stack_size = 128 * 4
+  .stack_size = 128 * 8
 };
 
 /**********************************************************************************************************

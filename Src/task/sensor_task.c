@@ -7,20 +7,14 @@
  * @邮箱     jinyuyingwork@gmail.com
  * @日期     2018 ~
 *********************************************************************************/
-#include "TaskConfig.h"
-#include "board.h"
-#include "gyroscope.h"
-#include "accelerometer.h"
-#include "cmsis_os.h"
-#include "datatrans.h"
-#include "MahonyAHRS.h"
+#include "sensor_task.h"
 
 //声明任务句柄
 osThreadId_t imuDataPreTreatTaskHandle;
 const osThreadAttr_t imuDataPreTreatTask_attributes = {
   .name = "imuDataPreTreatTask",
   .priority = (osPriority_t) osPriorityHigh,
-  .stack_size = 128 * 4
+  .stack_size = 128 * 8
 };
 
 /**********************************************************************************************************

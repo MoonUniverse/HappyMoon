@@ -12,6 +12,7 @@
 #include "messageQueue.h"
 #include "module_task.h"
 #include "sensor_task.h"
+#include "control_task.h"
 
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
@@ -52,7 +53,9 @@ void StartDefaultTask(void *argument)
   //传感器及模块数据读取任务创建
   ModuleTaskCreate();
   //传感器数据预处理任务创建
-  SensorTaskCreate();  
+  SensorTaskCreate(); 
+  //控制任务创建 
+  ControlTaskCreate();
   for(;;)
   {
     // debug os is successful
