@@ -5,6 +5,7 @@
 #include "stm32f4xx_hal_rcc_ex.h"
 #include "spi.h"
 #include "stm32f4xx_it.h"
+#include "pwm.h"
 // #include "mcpwm.h"
 // #include "Adc_Battery.h"
 #include "general_gpio.h"

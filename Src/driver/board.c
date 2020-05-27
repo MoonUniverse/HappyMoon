@@ -30,9 +30,13 @@ void Board_Init(void)
     /* led init */
     GeneralGpio_Init();
     SoftDelayMs(50);
-    /* SPI2init ICM20602 */
+    /* SPI2 init ICM20602 */
     Spi_GPIO_Init();
     Spi_Open();
+    SoftDelayMs(50);
+    /* PWM init */
+    Pwm_GPIO_Init();
+    Pwm_Tim_Init();
     SoftDelayMs(50);
     /* init code for USB_DEVICE */
     MX_USB_DEVICE_Init();
@@ -97,6 +101,8 @@ static void MX_RCC_Init(void)
   __HAL_RCC_GPIOH_CLK_ENABLE();
 
   __HAL_RCC_SPI2_CLK_ENABLE();
+  __HAL_RCC_TIM5_CLK_ENABLE();
+  __HAL_RCC_TIM8_CLK_ENABLE();
 }
 
 /**
