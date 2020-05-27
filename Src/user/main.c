@@ -9,6 +9,7 @@
 *********************************************************************************/
 #include "main.h"
 #include "board.h"
+#include "FreeRTOS.h"
 #include "messageQueue.h"
 #include "module_task.h"
 #include "sensor_task.h"
@@ -48,6 +49,7 @@ int main(void)
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void *argument)
 {
+  portTickType xLastWakeTime;
   //消息队列创建
   MessageQueueCreate();
   //传感器及模块数据读取任务创建
@@ -56,13 +58,13 @@ void StartDefaultTask(void *argument)
   SensorTaskCreate(); 
   //控制任务创建 
   ControlTaskCreate();
+  xLastWakeTime = xTaskGetTickCount();
   for(;;)
   {
     // debug os is successful
     HAL_GPIO_WritePin(GPIOE,GPIO_PIN_7,1-HAL_GPIO_ReadPin(GPIOE,GPIO_PIN_7));
-    osDelay(1000);
+    vTaskDelayUntil(&xLastWakeTime, (1000 / portTICK_RATE_MS));
   }
-  /* USER CODE END 5 */ 
 }
 
 

@@ -3,6 +3,8 @@
 
 #include "TaskConfig.h"
 #include "cmsis_os.h"
+#include "safeControl.h"
+#include "thrustmixer.h"
 
 void ControlTaskCreate(void);
 
