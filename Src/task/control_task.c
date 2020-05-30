@@ -30,12 +30,12 @@ void vControlTask(void *argument)
         //从消息队列中获取数据
         xQueueReceive(messageQueue[GYRO_FOR_CONTROL], &gyroControl, (3 / portTICK_RATE_MS));
 
-        //测试
-        pwm_output(200,200,200,200);
+        user_pwm_setvalue(200);
+        // //测试
+        // pwm_output(200,200,200,200);
 
         //侧倾保护机制
         SafeControl();
-
         
     }
 

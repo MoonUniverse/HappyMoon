@@ -84,10 +84,12 @@ static void MX_TIM5_Init(void)
   {
     Error_Handler();
   }
+  HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_3); 
   if (HAL_TIM_PWM_ConfigChannel(&htim5, &sConfigOC, TIM_CHANNEL_4) != HAL_OK)
   {
     Error_Handler();
   }
+  HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_4);
 
 }
 
@@ -130,6 +132,8 @@ static void MX_TIM8_Init(void)
   {
     Error_Handler();
   }
+  HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_3); 
+  HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_4); 
   sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
   sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
   sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
@@ -142,6 +146,18 @@ static void MX_TIM8_Init(void)
     Error_Handler();
   }
   
+}
+
+void user_pwm_setvalue(uint16_t value)
+{
+    TIM_OC_InitTypeDef sConfigOC;
+  
+    sConfigOC.OCMode = TIM_OCMODE_PWM1;
+    sConfigOC.Pulse = value + 1000;
+    sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+    sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+    HAL_TIM_PWM_ConfigChannel(&htim5, &sConfigOC, TIM_CHANNEL_1);
+    HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_1);  
 }
 
 

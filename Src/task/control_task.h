@@ -5,6 +5,7 @@
 #include "cmsis_os.h"
 #include "safeControl.h"
 #include "thrustmixer.h"
+#include "pwm.h"
 
 void ControlTaskCreate(void);
 
