@@ -25,8 +25,8 @@ void Pwm_GPIO_Init(void)
     */
     GPIO_InitStructure.Pin = GPIO_PIN_2|GPIO_PIN_3;
     GPIO_InitStructure.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStructure.Pull = GPIO_NOPULL;
-    GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStructure.Pull = GPIO_PULLUP;
+    GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStructure.Alternate = GPIO_AF2_TIM5;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStructure);
     /**TIM8 GPIO Configuration    
@@ -35,8 +35,8 @@ void Pwm_GPIO_Init(void)
     */
     GPIO_InitStructure.Pin = GPIO_PIN_8|GPIO_PIN_9;
     GPIO_InitStructure.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStructure.Pull = GPIO_NOPULL;
-    GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStructure.Pull = GPIO_PULLUP;
+    GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStructure.Alternate = GPIO_AF3_TIM8;
     HAL_GPIO_Init(GPIOC, &GPIO_InitStructure);
 
@@ -61,7 +61,7 @@ static void MX_TIM5_Init(void)
   TIM_OC_InitTypeDef sConfigOC = {0};
 
   htim5.Instance = TIM5;
-  htim5.Init.Prescaler = 168 - 1;
+  htim5.Init.Prescaler = 84 - 1;
   htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim5.Init.Period = 2000;
   htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -101,7 +101,7 @@ static void MX_TIM8_Init(void)
 
 
   htim8.Instance = TIM8;
-  htim8.Init.Prescaler = 168 - 1;
+  htim8.Init.Prescaler = 84 - 1;
   htim8.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim8.Init.Period = 2000;
   htim8.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -156,8 +156,8 @@ void user_pwm_setvalue(uint16_t value)
     sConfigOC.Pulse = value + 1000;
     sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
     sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-    HAL_TIM_PWM_ConfigChannel(&htim5, &sConfigOC, TIM_CHANNEL_1);
-    HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_1);  
+    HAL_TIM_PWM_ConfigChannel(&htim5, &sConfigOC, TIM_CHANNEL_3);
+    HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_3);  
 }
 
 

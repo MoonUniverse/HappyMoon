@@ -40,7 +40,7 @@ void Board_Init(void)
     SoftDelayMs(50);
     /* init code for USB_DEVICE */
     MX_USB_DEVICE_Init();
-    SoftDelayMs(1000);
+    SoftDelayMs(3000);
 }
 
 /**
