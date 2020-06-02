@@ -12,7 +12,7 @@
 osThreadId_t controlTaskHandle;
 const osThreadAttr_t controlTask_attributes = {
   .name = "controlTask",
-  .priority = (osPriority_t) osPriorityRealtime,
+  .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
 
@@ -32,7 +32,7 @@ void vControlTask(void *argument)
         //测试
         pwm_output(200,200,200,200);
         //侧倾保护机制
-        SafeControl();
+        // SafeControl();
         
     }
 
