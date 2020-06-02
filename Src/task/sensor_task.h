@@ -11,8 +11,6 @@
 
 void SensorTaskCreate(void);
 
-uint64_t send_imu_data_flag = 0;
-
 int16_t	GetImuDataPreTreatTaskStackRemain(void);
 
 #endif

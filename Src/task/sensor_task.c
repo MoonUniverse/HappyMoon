@@ -31,6 +31,8 @@ void vImuDataPreTreatTask(void *argument)
     Vector3f_t* accData  = pvPortMalloc(sizeof(Vector3f_t));
     Vector3f_t* gyroData = pvPortMalloc(sizeof(Vector3f_t));
     Vector3f_t* gyroLpfData = pvPortMalloc(sizeof(Vector3f_t));
+
+    uint64_t send_imu_data_flag = 0;
     //挂起调度器
     vTaskSuspendAll();
     //陀螺仪预处理初始化
@@ -49,7 +51,7 @@ void vImuDataPreTreatTask(void *argument)
         GyroDataPreTreat(*gyroRawData,gyroData,gyroLpfData);
         AccDataPreTreat(*accRawData,accData);  
         //AHRS (mahony)
-        MahonyAHRSupdateIMU(gyroRawData->x,gyroRawData->y,gyroRawData->z,accRawData->x,accRawData->y,accRawData->z);
+        MahonyAHRSupdateIMU(gyroData->x,gyroData->y,gyroData->z,accData->x,accData->y,accData->z);
         //二分频发送
         if(send_imu_data_flag++ % 2 == 0){
             SendIMUdata(accRawData,gyroRawData,GetCopterAngle());
