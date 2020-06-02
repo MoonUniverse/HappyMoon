@@ -8,5 +8,5 @@
 
 void Pwm_GPIO_Init(void);
 void Pwm_Tim_Init(void);
-void user_pwm_setvalue(uint16_t value);
+// void user_pwm_setvalue(uint16_t value);
 #endif

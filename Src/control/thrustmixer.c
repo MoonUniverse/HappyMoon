@@ -128,20 +128,20 @@ void MotorThrust(float f1,float f2,float f3,float f4){
 	M3 = 0.06531f * f3 - 0.00288f;
 	M4 = 0.06531f * f4 - 0.00288f;
 	
-	ThrottleInfo.M1 = (int)(M1 * 1000.0f);
-	ThrottleInfo.M2 = (int)(M2 * 1000.0f);
-	ThrottleInfo.M3 = (int)(M3 * 1000.0f);
-	ThrottleInfo.M4 = (int)(M4 * 1000.0f);
+	ThrottleInfo.M1 = (int)(M1 * 4000.0f);
+	ThrottleInfo.M2 = (int)(M2 * 4000.0f);
+	ThrottleInfo.M3 = (int)(M3 * 4000.0f);
+	ThrottleInfo.M4 = (int)(M4 * 4000.0f);
 	
-	if(ThrottleInfo.M1 > 850)  ThrottleInfo.M1=850;
-	if(ThrottleInfo.M2 > 850)  ThrottleInfo.M2=850;
-	if(ThrottleInfo.M3 > 850)  ThrottleInfo.M3=850;
-	if(ThrottleInfo.M4 > 850)  ThrottleInfo.M4=850;
+	if(ThrottleInfo.M1 > 3500)  ThrottleInfo.M1=3500;
+	if(ThrottleInfo.M2 > 3500)  ThrottleInfo.M2=3500;
+	if(ThrottleInfo.M3 > 3500)  ThrottleInfo.M3=3500;
+	if(ThrottleInfo.M4 > 3500)  ThrottleInfo.M4=3500;
 
-	if(ThrottleInfo.M1 < 150)  ThrottleInfo.M1=150;
-	if(ThrottleInfo.M2 < 150)  ThrottleInfo.M2=150;
-	if(ThrottleInfo.M3 < 150)  ThrottleInfo.M3=150;
-	if(ThrottleInfo.M4 < 150)  ThrottleInfo.M4=150;
+	if(ThrottleInfo.M1 < 500)  ThrottleInfo.M1=500;
+	if(ThrottleInfo.M2 < 500)  ThrottleInfo.M2=500;
+	if(ThrottleInfo.M3 < 500)  ThrottleInfo.M3=500;
+	if(ThrottleInfo.M4 < 500)  ThrottleInfo.M4=500;
 	
 	pwm_output(ThrottleInfo.M1,ThrottleInfo.M2,ThrottleInfo.M3,ThrottleInfo.M4);
 	
@@ -155,10 +155,10 @@ void MotorThrust(float f1,float f2,float f3,float f4){
 ************************************************************************************************/
 void pwm_output(unsigned int Motor1,unsigned int Motor2,
 					unsigned int Motor3,unsigned int Motor4){
-	Motor1+=1000;
-	Motor2+=1000;
-	Motor3+=1000;
-	Motor4+=1000;
+	Motor1+=4000;
+	Motor2+=4000;
+	Motor3+=4000;
+	Motor4+=4000;
 	TIM5->CCR3=Motor2;
 	TIM5->CCR4=Motor1;
 	TIM8->CCR3=Motor4;

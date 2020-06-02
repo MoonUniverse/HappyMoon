@@ -50,8 +50,10 @@ void vImuDataPreTreatTask(void *argument)
         AccDataPreTreat(*accRawData,accData);  
         //AHRS (mahony)
         MahonyAHRSupdateIMU(gyroRawData->x,gyroRawData->y,gyroRawData->z,accRawData->x,accRawData->y,accRawData->z);
-        //500hz
-        SendIMUdata(accRawData,gyroRawData,GetCopterAngle());
+        //二分频发送
+        if(send_imu_data_flag++ % 2 == 0){
+            SendIMUdata(accRawData,gyroRawData,GetCopterAngle());
+        }
         //往下一级消息队列中填充数据
         xQueueSendToBack(messageQueue[ACC_DATA_PRETREAT], (void *)&accData, 0);
         xQueueSendToBack(messageQueue[GYRO_DATA_PRETREAT], (void *)&gyroData, 0);
