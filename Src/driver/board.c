@@ -20,27 +20,27 @@ static void MX_RCC_Init(void);
 void Board_Init(void)
 {
     HAL_Init();
-    SoftDelayMs(50);
+    HAL_Delay(50);
     /* Configure the system clock */
     SystemClock_Config();
-    SoftDelayMs(50);
+    HAL_Delay(50);
     /* Initialize all configured peripherals */
     MX_RCC_Init();
-    SoftDelayMs(50);
+    HAL_Delay(50);
     /* led init */
     GeneralGpio_Init();
-    SoftDelayMs(50);
+    HAL_Delay(50);
     /* SPI2 init ICM20602 */
     Spi_GPIO_Init();
     Spi_Open();
-    SoftDelayMs(50);
+    HAL_Delay(50);
     /* PWM init */
     Pwm_GPIO_Init();
     Pwm_Tim_Init();
-    SoftDelayMs(50);
+    HAL_Delay(50);
     /* init code for USB_DEVICE */
     MX_USB_DEVICE_Init();
-    SoftDelayMs(50);
+    HAL_Delay(50);
 }
 
 /**
@@ -126,43 +126,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   /* USER CODE END Callback 1 */
 }
 
-/**********************************************************************************************************
-*函 数 名: SoftDelayMs
-*功能说明: 毫秒级软件延时，基于STM32F4 168M主频的调试值，不同单片机有所区别
-*形    参: 延时时间
-*返 回 值: 无
-**********************************************************************************************************/
-void SoftDelayMs(uint32_t ms)
-{
-    uint32_t us_cnt;
-    for(; ms!= 0; ms--)
-    {
-        us_cnt = 42000;
-        while(us_cnt)
-        {
-            us_cnt--;
-        }
-    }
-}
 
-/**********************************************************************************************************
-*函 数 名: SoftDelayUs
-*功能说明: 微秒级软件延时，基于STM32F4 168M主频的调试值，不同单片机有所区别
-*形    参: 延时时间
-*返 回 值: 无
-**********************************************************************************************************/
-void SoftDelayUs(uint32_t us)
-{
-    uint32_t us_cnt;
-    for(; us!= 0; us--)
-    {
-        us_cnt = 35;
-        while(us_cnt)
-        {
-            us_cnt--;
-        }
-    }
-}
 
 /**********************************************************************************************************
 *函 数 名: OsDelayMs

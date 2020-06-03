@@ -338,9 +338,9 @@ bool ICM20602_Detect(void)
 {
     uint8_t who_am_i;
     Spi_GyroSingleWrite(MPU_RA_PWR_MGMT_1, 0x80);
-    SoftDelayMs(10);
+    HAL_Delay(10);
     Spi_GyroSingleWrite(MPU_RA_PWR_MGMT_1, 0x01);
-    SoftDelayMs(10);
+    HAL_Delay(10);
     
     Spi_GyroMultiRead(MPU_RA_WHO_AM_I, &who_am_i, 1);
     if(who_am_i == 0x12)
@@ -358,44 +358,44 @@ bool ICM20602_Detect(void)
 void ICM20602_Init(void)
 {
     Spi_GyroSingleWrite(MPU_RA_SIGNAL_PATH_RESET, 0x03);
-    SoftDelayMs(50);
+    HAL_Delay(50);
 
     Spi_GyroSingleWrite(MPU_RA_USER_CTRL, 0x01);
-    SoftDelayMs(50);
+    HAL_Delay(50);
 
     Spi_GyroSingleWrite(MPU_RA_PWR_MGMT_2, 0x00);
-    SoftDelayMs(50);
+    HAL_Delay(50);
 
     //陀螺仪采样率0x00(1000Hz)   采样率 = 陀螺仪的输出率 / (1 + SMPLRT_DIV)
     Spi_GyroSingleWrite(MPU_RA_SMPLRT_DIV, (1000/1000 - 1));
-    SoftDelayMs(50);
+    HAL_Delay(50);
 
     //i2c旁路模式
     // INT_PIN_CFG   -- INT_LEVEL_HIGH, INT_OPEN_DIS, LATCH_INT_DIS, INT_RD_CLEAR_DIS, FSYNC_INT_LEVEL_HIGH, FSYNC_INT_DIS, I2C_BYPASS_EN, CLOCK_DIS
     Spi_GyroSingleWrite(MPU_RA_INT_PIN_CFG, 0 << 7 | 0 << 6 | 0 << 5 | 0 << 4 | 0 << 3 | 0 << 2 | 1 << 1 | 0 << 0);
-    SoftDelayMs(50);
+    HAL_Delay(50);
 
     // //低通滤波频率
     // Spi_GyroSingleWrite(MPU_RA_CONFIG, ICM20602_LPF_250HZ);
-    // SoftDelayMs(50);
+    // HAL_Delay(50);
 
     //陀螺仪自检及测量范围，典型值0x18(不自检，2000deg/s) (0x10 1000deg/s) (0x10 1000deg/s) (0x08 500deg/s)
     Spi_GyroSingleWrite(MPU_RA_GYRO_CONFIG, 0x10);
-    SoftDelayMs(50);
+    HAL_Delay(50);
 
     //加速度自检、测量范围(不自检，+-8G)
     Spi_GyroSingleWrite(MPU_RA_ACCEL_CONFIG, 2 << 3);
-    SoftDelayMs(50);
+    HAL_Delay(50);
 
     // //加速度低通滤波设置
     // Spi_GyroSingleWrite(0X1D, ICM20602_LPF_250HZ);
-    // SoftDelayMs(50);
+    // HAL_Delay(50);
     //关闭低功耗
 	Spi_GyroSingleWrite(0X1E,0x00);
-    SoftDelayMs(50);
+    HAL_Delay(50);
     //关闭FIFO
 	Spi_GyroSingleWrite(0X23,0x00);
-    SoftDelayMs(5);
+    HAL_Delay(5);
 }
 
 /**********************************************************************************************************

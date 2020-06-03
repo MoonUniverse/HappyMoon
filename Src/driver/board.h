@@ -24,8 +24,6 @@
 
 //定义硬件飞控板
 void Board_Init(void);
-void SoftDelayMs(uint32_t ms);
-void SoftDelayUs(uint32_t us);
 void OsDelayMs(uint32_t ms);
 
 uint64_t GetSysTimeUs(void);
