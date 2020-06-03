@@ -56,7 +56,6 @@ Src/math/mathTool.c \
 Src/math/vector3.c \
 Src/math/MahonyAHRS.c \
 Src/math/lowPassFilter.c \
-Src/math/pid.c \
 Src/task/module_task.c \
 Src/task/sensor_task.c \
 Src/task/control_task.c \
@@ -66,7 +65,9 @@ Src/datatrans/datatrans.c \
 Src/sensor/gyroscope.c \
 Src/sensor/accelerometer.c \
 Src/control/thrustmixer.c \
-Src/control/safeControl.c \
+Src/control/safecontrol.c \
+Src/control/pidcontrol.c \
+Src/control/attitudecontrol.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd_ex.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.c \

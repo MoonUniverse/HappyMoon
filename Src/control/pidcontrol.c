@@ -1,14 +1,20 @@
-/******************* (C) COPYRIGHT 2018-20~~ HappyMoon **************************
- *              github:https://github.com/MoonUniverse/HappyMoon
- *              issue:https://github.com/MoonUniverse/HappyMoon/issues           
- * @文件     pid.c
- * @说明     pid控制器
+/**********************************************************************************************************
+ * @文件     PID_control.c
+ * @说明     PID文件
  * @作者     YuyingJin
- * @邮箱     jinyuyingwork@gmail.com
+ * @网站     https://yuyingjin0111.github.io/
  * @日期     2018 ~
-*********************************************************************************/
-#include "pid.h"
+**********************************************************************************************************/
+#include "pidcontrol.h"
+// f_cut = 1/(2*PI*cutoff_freq)
+// f_cut = 2 Hz -> _filter = 79.5774e-3
+// f_cut = 10 Hz -> _filter = 15.9155e-3
+// f_cut = 15 Hz -> _filter = 10.6103e-3
+// f_cut = 20 Hz -> _filter =  7.9577e-3
+// f_cut = 25 Hz -> _filter =  6.3662e-3
+// f_cut = 30 Hz -> _filter =  5.3052e-3
 
+#define DFilter 15.9155e-3f //10hz频率
 /**********************************************************************************************************
 *函 数 名: PID_GetP
 *功能说明: 比例控制器
@@ -17,7 +23,10 @@
 **********************************************************************************************************/
 float PID_GetP(PID_t* pid, float error)
 {
+	if(pid->kP != 0){
     return (float)error * pid->kP;
+	}
+	return 0;
 }
 
 /**********************************************************************************************************
@@ -28,13 +37,13 @@ float PID_GetP(PID_t* pid, float error)
 **********************************************************************************************************/
 float PID_GetI(PID_t* pid, float error, float dt)
 {
-    if((pid->kI != 0) && (dt != 0))
-    {
-        pid->integrator += ((float)error * pid->kI) * dt;
-        pid->integrator = ConstrainFloat(pid->integrator, -pid->imax, +pid->imax);
-        return pid->integrator;
-    }
-    return 0;
+	if((pid->kI != 0) && (dt != 0)) 
+	{
+		pid->integrator += ((float)error * pid->kI) * dt;
+		pid->integrator = ConstrainFloat(pid->integrator, -pid->imax, +pid->imax);
+		return pid->integrator;
+	}
+	return 0;
 }
 
 /**********************************************************************************************************
@@ -45,7 +54,7 @@ float PID_GetI(PID_t* pid, float error, float dt)
 **********************************************************************************************************/
 void PID_ResetI(PID_t* pid)
 {
-    pid->integrator = 0;
+	pid->integrator = 0;
 }
 
 /**********************************************************************************************************
@@ -62,7 +71,7 @@ float PID_GetD(PID_t* pid, float error, float dt)
 
         derivative = (error - pid->lastError) / dt;
 
-        derivative = pid->lastDerivative + (dt / ( pid->dFilter + dt)) * (derivative - pid->lastDerivative);
+        derivative = pid->lastDerivative + (dt / ( DFilter + dt)) * (derivative - pid->lastDerivative);
 
         pid->lastError	= error;
         pid->lastDerivative = derivative;
@@ -93,22 +102,3 @@ float PID_GetPID(PID_t* pid, float error, float dt)
 {
     return PID_GetP(pid, error) + PID_GetI(pid, error, dt) + PID_GetD(pid, error, dt);
 }
-
-/**********************************************************************************************************
-*函 数 名: PID_SetParam
-*功能说明: PID参数设置
-*形    参: PID结构体 比例参数 积分参数 微分参数 积分上限 微分项低通截止频率
-*返 回 值: 无
-**********************************************************************************************************/
-void PID_SetParam(PID_t* pid, float p, float i, float d, float imaxval, float dCutFreq)
-{
-    pid->kP = p;
-    pid->kI = i;
-    pid->kD = d;
-    pid->imax = imaxval;
-    if(dCutFreq != 0)
-        pid->dFilter = 1 / (2 * PI * dCutFreq);
-    else
-        pid->dFilter = 0;
-}
-

@@ -3,7 +3,7 @@
 
 #include "TaskConfig.h"
 #include "cmsis_os.h"
-#include "safeControl.h"
+#include "safecontrol.h"
 #include "thrustmixer.h"
 #include "pwm.h"
 
