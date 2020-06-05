@@ -159,9 +159,9 @@ void pwm_output(unsigned int Motor1,unsigned int Motor2,
 	Motor2+=4000;
 	Motor3+=4000;
 	Motor4+=4000;
-	TIM5->CCR3=Motor2;
-	TIM5->CCR4=Motor1;
-	TIM8->CCR3=Motor4;
-	TIM8->CCR4=Motor3;		 
+	TIM1->CCR1=Motor2;
+	TIM1->CCR2=Motor1;
+	TIM1->CCR3=Motor4;
+	TIM1->CCR4=Motor3;		 
 }
 

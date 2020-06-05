@@ -101,13 +101,12 @@ static void MX_RCC_Init(void)
   __HAL_RCC_GPIOH_CLK_ENABLE();
 
   __HAL_RCC_SPI2_CLK_ENABLE();
-  __HAL_RCC_TIM5_CLK_ENABLE();
-  __HAL_RCC_TIM8_CLK_ENABLE();
+  __HAL_RCC_TIM1_CLK_ENABLE();
 }
 
-/**
+ /**
   * @brief  Period elapsed callback in non blocking mode
-  * @note   This function is called  when TIM1 interrupt took place, inside
+  * @note   This function is called  when TIM2 interrupt took place, inside
   * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
   * a global variable "uwTick" used as application time base.
   * @param  htim : TIM handle
@@ -118,7 +117,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   /* USER CODE BEGIN Callback 0 */
 
   /* USER CODE END Callback 0 */
-  if (htim->Instance == TIM1) {
+  if (htim->Instance == TIM2) {
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
