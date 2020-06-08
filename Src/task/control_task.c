@@ -25,15 +25,17 @@ const osThreadAttr_t controlTask_attributes = {
 void vControlTask(void *argument)
 {
     Vector3f_t* gyroControl;
+    Vector3f_t* ExpectGryo;
     for(;;)
     {
         //从消息队列中获取数据
         xQueueReceive(messageQueue[GYRO_FOR_CONTROL], &gyroControl, (3 / portTICK_RATE_MS));
-        //测试
-        pwm_output(750,750,750,750);
         //侧倾保护机制
         // SafeControl();
-        
+        //姿态内环控制
+        Attitude_InnerController(*gyroControl,*ExpectGryo);
+        //推力整合输出
+        ThrustMixer();
     }
 
 }

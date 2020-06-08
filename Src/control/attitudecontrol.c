@@ -121,15 +121,15 @@ void Attitude_InnerController(Vector3f_t EstimateGyro,Vector3f_t Expect_Gyro){
 // Vector3f_t GetExpectAnguleRate(void){
 // 	return AttitudeControlValue.ExpectWRate;
 // }
-// /**********************************************************************************************************
-// *函 数 名: GetExpectThrust
-// *功能说明: 获取期望推力
-// *形    参: 无
-// *返 回 值: 无
-// **********************************************************************************************************/
-// Vector3f_t GetExpectThrust(void){
-// 	return AttitudeControlValue.Thrust;
-// }
+/**********************************************************************************************************
+*函 数 名: GetExpectThrust
+*功能说明: 获取期望推力
+*形    参: 无
+*返 回 值: 无
+**********************************************************************************************************/
+Vector3f_t GetExpectThrust(void){
+	return AttitudeControlValue.Thrust;
+}
 
 // /**********************************************************************************************************
 // *函 数 名: GetFPSAttitudeControl

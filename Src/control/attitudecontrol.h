@@ -23,7 +23,7 @@ void Attitude_InnerController(Vector3f_t EstimateGyro,Vector3f_t Expect_Gyro);
 // void Attitude_OuterController(void);		
 // float GetFPSAttitudeControl(void);
 // Vector3f_t GetExpectAnguleRate(void);
-// Vector3f_t GetExpectThrust(void);
+Vector3f_t GetExpectThrust(void);
 // void ResetAttitudeControlValue(void);
 
 #endif

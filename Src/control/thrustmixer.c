@@ -59,30 +59,31 @@ ThrustUav UavThrust;
 	C = 0.0093181
 */
 void ThrustMixer(void){
-	// // 获取期望推力
-	// Vector3f_t RotateThrust = GetExpectThrust();
-	// // 获取期望加速度
+	// 获取期望推力
+	Vector3f_t RotateThrust = GetExpectThrust();
+	// 获取期望加速度
 	// float HeightAccValue = GetDesiredControlAcc();
+	float HeightAccValue = 9.8;
 	
-	// UavThrust.f1 = - 1.414f / (ARM_Length * 4.0f) * RotateThrust.x  																		//roll
-	// 								+ 1.414f / (ARM_Length * 4.0f) * RotateThrust.y                                  		//pitch
-	// 									+ 1.0f / (Drag_Coeff * 4.0f) * RotateThrust.z                                      //yaw	
-	// 										+ HeightAccValue * Drone_Mass / 4.0f;			  											  						//mass		 																									
+	UavThrust.f1 = + 1.414f / (ARM_Length * 4.0f) * RotateThrust.x  																		//roll
+									+ 1.414f / (ARM_Length * 4.0f) * RotateThrust.y                                  	//pitch
+										+ 1.0f / (Drag_Coeff * 4.0f) * RotateThrust.z                                   //yaw	
+											+ HeightAccValue * Drone_Mass / 4.0f;			  											  						//mass		 																									
 	
-	// UavThrust.f2 = - 1.414f / (ARM_Length * 4.0f) * RotateThrust.x
-	// 								- 1.414f / (ARM_Length * 4.0f) * RotateThrust.y
-	// 									- 1.0f / (Drag_Coeff * 4.0f) * RotateThrust.z
-	// 										+ HeightAccValue * Drone_Mass / 4.0f;									
+	UavThrust.f2 = + 1.414f / (ARM_Length * 4.0f) * RotateThrust.x
+									- 1.414f / (ARM_Length * 4.0f) * RotateThrust.y
+										- 1.0f / (Drag_Coeff * 4.0f) * RotateThrust.z
+											+ HeightAccValue * Drone_Mass / 4.0f;									
 
-	// UavThrust.f3 = + 1.414f / (ARM_Length * 4.0f) * RotateThrust.x
-	// 								+ 1.414f / (ARM_Length * 4.0f) * RotateThrust.y
-	// 									- 1.0f / (Drag_Coeff * 4.0f) * RotateThrust.z
-	// 										+ HeightAccValue * Drone_Mass / 4.0f;
+	UavThrust.f3 = - 1.414f / (ARM_Length * 4.0f) * RotateThrust.x
+									- 1.414f / (ARM_Length * 4.0f) * RotateThrust.y
+										+ 1.0f / (Drag_Coeff * 4.0f) * RotateThrust.z
+											+ HeightAccValue * Drone_Mass / 4.0f;
 
-	// UavThrust.f4 = + 1.414f / (ARM_Length * 4.0f) * RotateThrust.x 
-	// 								- 1.414f / (ARM_Length * 4.0f) * RotateThrust.y
-	// 									+ 1.0f / (Drag_Coeff * 4.0f) * RotateThrust.z
-	// 										+ HeightAccValue * Drone_Mass / 4.0f;
+	UavThrust.f4 = - 1.414f / (ARM_Length * 4.0f) * RotateThrust.x 
+									+ 1.414f / (ARM_Length * 4.0f) * RotateThrust.y
+										- 1.0f / (Drag_Coeff * 4.0f) * RotateThrust.z
+											+ HeightAccValue * Drone_Mass / 4.0f;
 		
 	MotorThrust(UavThrust.f1,UavThrust.f2,UavThrust.f3,UavThrust.f4);
 }
@@ -159,9 +160,9 @@ void pwm_output(unsigned int Motor1,unsigned int Motor2,
 	Motor2+=4000;
 	Motor3+=4000;
 	Motor4+=4000;
-	TIM1->CCR1=Motor2;
+	TIM1->CCR1=Motor4;
 	TIM1->CCR2=Motor1;
-	TIM1->CCR3=Motor4;
+	TIM1->CCR3=Motor2;
 	TIM1->CCR4=Motor3;		 
 }
 

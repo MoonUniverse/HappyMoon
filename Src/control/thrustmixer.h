@@ -4,6 +4,7 @@
 #include "stm32f4xx_hal_gpio.h"
 #include "stm32f4xx_hal_tim.h"
 #include "flightconfig.h"
+#include "attitudecontrol.h"
 
 typedef struct{
 	float f1;
@@ -19,6 +20,7 @@ typedef struct{
 	int M4;
 }Throttle;
 
+void ThrustMixer(void);
 void MotorThrust(float f1,float f2,float f3,float f4);
 void pwm_output(unsigned int Motor1,unsigned int Motor2,
 					unsigned int Motor3,unsigned int Motor4);
