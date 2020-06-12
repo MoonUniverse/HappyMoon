@@ -1,7 +1,6 @@
 #ifndef __DATARECEIVE_H
 #define __DATAREVEIVE_H
-#include "vector3.h"
-#include "usbd_cdc_if.h"
+#include "stm32f4xx_hal.h"
 #include "TaskConfig.h"
 
 void HandleReceiveData(unsigned char *src);

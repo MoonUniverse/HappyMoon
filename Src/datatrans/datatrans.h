@@ -1,5 +1,6 @@
 #ifndef __DATATRANS_H
 #define __DATATRANS_H
+#include "TaskConfig.h"
 #include "vector3.h"
 #include "usbd_cdc_if.h"
 #include "TaskConfig.h"

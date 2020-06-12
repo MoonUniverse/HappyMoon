@@ -28,7 +28,6 @@ void MessageQueueCreate(void)
     messageQueue[ACC_DATA_PRETREAT] =  xQueueCreate(2, sizeof(Vector3f_t *));
     messageQueue[GYRO_FOR_CONTROL] =  xQueueCreate(2, sizeof(Vector3f_t *));
 
-    messageQueue[RECEIVE_FROM_UPBOARD] = xQueueCreate(40, sizeof(unsigned char *));
 }
 
 

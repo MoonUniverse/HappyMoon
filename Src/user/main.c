@@ -14,7 +14,6 @@
 #include "module_task.h"
 #include "sensor_task.h"
 #include "control_task.h"
-#include "datahandle_task.h"
 
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
@@ -59,8 +58,6 @@ void StartDefaultTask(void *argument)
   SensorTaskCreate(); 
   //控制任务创建 
   ControlTaskCreate();
-  //数据接收处理任务创建
-  DatahandleTaskCreate();
   xLastWakeTime = xTaskGetTickCount();
   for(;;)
   {

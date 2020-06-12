@@ -24,7 +24,7 @@ void HandleReceiveData(unsigned char *src){
         {
             fly_status = drone_on;
         }
-        if(src[2] == 0x02 && src[3] == 0x02)
+        if(src[2] == 0x00 && src[3] == 0x00)
         {
             fly_status = drone_off;
         }

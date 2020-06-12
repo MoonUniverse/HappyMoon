@@ -14,7 +14,6 @@ enum {
     GYRO_DATA_PRETREAT,
     ACC_DATA_PRETREAT,
     GYRO_FOR_CONTROL,
-    RECEIVE_FROM_UPBOARD,
     QUEUE_NUM,
 };
 typedef union{
