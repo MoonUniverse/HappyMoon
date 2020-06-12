@@ -25,17 +25,38 @@ const osThreadAttr_t controlTask_attributes = {
 void vControlTask(void *argument)
 {
     Vector3f_t* gyroControl;
-    Vector3f_t* ExpectGryo;
+    Vector3f_t ExpectGryo;
+    Vector3f_t expect_torque;
+    float expect_accz;
     for(;;)
     {
         //从消息队列中获取数据
         xQueueReceive(messageQueue[GYRO_FOR_CONTROL], &gyroControl, (3 / portTICK_RATE_MS));
-        //侧倾保护机制
-        // SafeControl();
-        //姿态内环控制
-        Attitude_InnerController(*gyroControl,*ExpectGryo);
+        if(getflyStatus() == drone_on)
+        {
+            ExpectGryo.x = getquadMessage().x.fv;
+            ExpectGryo.y = getquadMessage().y.fv;
+            ExpectGryo.z = getquadMessage().z.fv;
+            expect_accz = 3;
+            //姿态内环控制
+            Attitude_InnerController(*gyroControl,ExpectGryo);
+        }
+        else if(getflyStatus() == drone_off)
+        {
+            expect_torque.x = 0;expect_torque.y = 0; expect_torque.z = 0;
+            expect_accz = 0;
+        }
+        else if(getflyStatus() == drone_take_off)
+        {
+
+        }
+        else if(getflyStatus() == drone_landing)
+        {
+
+        }
         //推力整合输出
-        ThrustMixer();
+        ThrustMixer(expect_torque,expect_accz);
+
     }
 
 }

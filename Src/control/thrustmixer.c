@@ -58,32 +58,27 @@ ThrustUav UavThrust;
 	B = 0.021521
 	C = 0.0093181
 */
-void ThrustMixer(void){
-	// 获取期望推力
-	Vector3f_t RotateThrust = GetExpectThrust();
-	// 获取期望加速度
-	// float HeightAccValue = GetDesiredControlAcc();
-	float HeightAccValue = 9.8;
-	
-	UavThrust.f1 = + 1.414f / (ARM_Length * 4.0f) * RotateThrust.x  																		//roll
-									+ 1.414f / (ARM_Length * 4.0f) * RotateThrust.y                                  	//pitch
-										+ 1.0f / (Drag_Coeff * 4.0f) * RotateThrust.z                                   //yaw	
-											+ HeightAccValue * Drone_Mass / 4.0f;			  											  						//mass		 																									
-	
-	UavThrust.f2 = + 1.414f / (ARM_Length * 4.0f) * RotateThrust.x
-									- 1.414f / (ARM_Length * 4.0f) * RotateThrust.y
-										- 1.0f / (Drag_Coeff * 4.0f) * RotateThrust.z
-											+ HeightAccValue * Drone_Mass / 4.0f;									
+void ThrustMixer(Vector3f_t ExpectTorque,float ExpectAccZ){
 
-	UavThrust.f3 = - 1.414f / (ARM_Length * 4.0f) * RotateThrust.x
-									- 1.414f / (ARM_Length * 4.0f) * RotateThrust.y
-										+ 1.0f / (Drag_Coeff * 4.0f) * RotateThrust.z
-											+ HeightAccValue * Drone_Mass / 4.0f;
+	UavThrust.f1 = + 1.414f / (ARM_Length * 4.0f) * ExpectTorque.x  																		//roll
+									+ 1.414f / (ARM_Length * 4.0f) * ExpectTorque.y                                  	//pitch
+										+ 1.0f / (Drag_Coeff * 4.0f) * ExpectTorque.z                                   //yaw	
+											+ ExpectAccZ * Drone_Mass / 4.0f;			  											  						//mass		 																									
+	
+	UavThrust.f2 = + 1.414f / (ARM_Length * 4.0f) * ExpectTorque.x
+									- 1.414f / (ARM_Length * 4.0f) * ExpectTorque.y
+										- 1.0f / (Drag_Coeff * 4.0f) * ExpectTorque.z
+											+ ExpectAccZ * Drone_Mass / 4.0f;									
 
-	UavThrust.f4 = - 1.414f / (ARM_Length * 4.0f) * RotateThrust.x 
-									+ 1.414f / (ARM_Length * 4.0f) * RotateThrust.y
-										- 1.0f / (Drag_Coeff * 4.0f) * RotateThrust.z
-											+ HeightAccValue * Drone_Mass / 4.0f;
+	UavThrust.f3 = - 1.414f / (ARM_Length * 4.0f) * ExpectTorque.x
+									- 1.414f / (ARM_Length * 4.0f) * ExpectTorque.y
+										+ 1.0f / (Drag_Coeff * 4.0f) * ExpectTorque.z
+											+ ExpectAccZ * Drone_Mass / 4.0f;
+
+	UavThrust.f4 = - 1.414f / (ARM_Length * 4.0f) * ExpectTorque.x 
+									+ 1.414f / (ARM_Length * 4.0f) * ExpectTorque.y
+										- 1.0f / (Drag_Coeff * 4.0f) * ExpectTorque.z
+											+ ExpectAccZ * Drone_Mass / 4.0f;
 		
 	MotorThrust(UavThrust.f1,UavThrust.f2,UavThrust.f3,UavThrust.f4);
 }
@@ -139,10 +134,10 @@ void MotorThrust(float f1,float f2,float f3,float f4){
 	if(ThrottleInfo.M3 > 3500)  ThrottleInfo.M3=3500;
 	if(ThrottleInfo.M4 > 3500)  ThrottleInfo.M4=3500;
 
-	if(ThrottleInfo.M1 < 500)  ThrottleInfo.M1=500;
-	if(ThrottleInfo.M2 < 500)  ThrottleInfo.M2=500;
-	if(ThrottleInfo.M3 < 500)  ThrottleInfo.M3=500;
-	if(ThrottleInfo.M4 < 500)  ThrottleInfo.M4=500;
+	if(ThrottleInfo.M1 < 0)  ThrottleInfo.M1=0;
+	if(ThrottleInfo.M2 < 0)  ThrottleInfo.M2=0;
+	if(ThrottleInfo.M3 < 0)  ThrottleInfo.M3=0;
+	if(ThrottleInfo.M4 < 0)  ThrottleInfo.M4=0;
 	
 	pwm_output(ThrottleInfo.M1,ThrottleInfo.M2,ThrottleInfo.M3,ThrottleInfo.M4);
 	

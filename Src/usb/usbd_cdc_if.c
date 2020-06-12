@@ -21,6 +21,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "usbd_cdc_if.h"
+#include "messageQueue.h"
 
 /* USER CODE BEGIN INCLUDE */
 
@@ -265,6 +266,10 @@ static int8_t CDC_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
 static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
 {
   /* USER CODE BEGIN 6 */
+  uint8_t receive_data[40];
+  memcpy(receive_data,Buf,*Len);
+  //更新消息队列，通知数据预处理任务对UPBOARD DATA数据进行预处理
+  xQueueSendToBack(messageQueue[RECEIVE_FROM_UPBOARD],  (void *)&receive_data, 0);
   USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
   USBD_CDC_ReceivePacket(&hUsbDeviceFS);
   return (USBD_OK);

@@ -20,7 +20,7 @@ typedef struct{
 	int M4;
 }Throttle;
 
-void ThrustMixer(void);
+void ThrustMixer(Vector3f_t ExpectTorque,float ExpectAccZ);
 void MotorThrust(float f1,float f2,float f3,float f4);
 void pwm_output(unsigned int Motor1,unsigned int Motor2,
 					unsigned int Motor3,unsigned int Motor4);

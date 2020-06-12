@@ -7,6 +7,7 @@
 #include "thrustmixer.h"
 #include "attitudecontrol.h"
 #include "pwm.h"
+#include "datareceive.h"
 
 void ControlTaskCreate(void);
 

@@ -59,9 +59,11 @@ Src/math/lowPassFilter.c \
 Src/task/module_task.c \
 Src/task/sensor_task.c \
 Src/task/control_task.c \
+Src/task/datahandle_task.c \
 Src/module/module.c \
 Src/module/icm20602.c \
 Src/datatrans/datatrans.c \
+Src/datatrans/datareceive.c \
 Src/sensor/gyroscope.c \
 Src/sensor/accelerometer.c \
 Src/control/thrustmixer.c \

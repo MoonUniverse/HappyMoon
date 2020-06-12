@@ -18,13 +18,6 @@ AttitudeControl AttitudeControlValue;
 void Attitude_InnerController(Vector3f_t EstimateGyro,Vector3f_t Expect_Gyro){
 	Vector3f_t ErrorGyro,ErrorThrust;
 	static float AttitudeCycleTime = 0.002f;
-	// //期望角速率选择
-	// if(GetCopterTest() == Drone_Mode_RatePitch || 
-	// 						GetCopterTest() == Drone_Mode_RateRoll){
-	// 	Expect_Gyro = GetRemoteControlAngleVel();
-	// }else{
-	// 	Expect_Gyro = GetExpectAnguleRate();
-	// }
 	
 	//计算角速度环控制误差：目标角速度 - 实际角速度（低通滤波后的陀螺仪测量值）
 	ErrorGyro.x = Expect_Gyro.x - EstimateGyro.x;
