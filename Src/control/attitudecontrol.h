@@ -2,15 +2,14 @@
 #define __ATTITUDECONTROL_H
 #include "stm32f4xx_hal.h"
 #include "vector3.h"
-#include "pidcontrol.h"
 #include "MahonyAHRS.h"
+#include "pidpara.h"
 #include <math.h>
 
-PID_t GyroxRate,GyroyRate,GyrozRate;
-
-#define Inertia_Wx 0.01
-#define Inertia_Wy 0.01
-#define Inertia_Wz 0.01
+//转动惯量设置  转动惯量 = M*R^2  对于质点而言。这里无法测得转动惯量大小，变为一个可调参数设置
+#define Inertia_Wx    0.002f
+#define Inertia_Wy    0.002f
+#define Inertia_Wz    0.004f
 
 typedef struct{
 	Vector3f_t ExpectGyroRate;

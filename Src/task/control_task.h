@@ -8,6 +8,7 @@
 #include "attitudecontrol.h"
 #include "pwm.h"
 #include "datareceive.h"
+#include "pidpara.h"
 
 void ControlTaskCreate(void);
 

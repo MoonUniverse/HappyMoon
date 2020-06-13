@@ -60,7 +60,7 @@ ThrustUav UavThrust;
 */
 void ThrustMixer(Vector3f_t ExpectTorque,float ExpectAccZ){
 
-	UavThrust.f1 = + 1.414f / (ARM_Length * 4.0f) * ExpectTorque.x  																		//roll
+	UavThrust.f1 = + 1.414f / (ARM_Length * 4.0f) * ExpectTorque.x  													//roll
 									+ 1.414f / (ARM_Length * 4.0f) * ExpectTorque.y                                  	//pitch
 										+ 1.0f / (Drag_Coeff * 4.0f) * ExpectTorque.z                                   //yaw	
 											+ ExpectAccZ * Drone_Mass / 4.0f;			  											  						//mass		 																									

@@ -68,6 +68,7 @@ Src/sensor/accelerometer.c \
 Src/control/thrustmixer.c \
 Src/control/safecontrol.c \
 Src/control/pidcontrol.c \
+Src/control/pidpara.c \
 Src/control/attitudecontrol.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd_ex.c \
