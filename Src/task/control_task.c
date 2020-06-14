@@ -39,11 +39,10 @@ void vControlTask(void *argument)
             expect_gryo.x = getquadMessage().x.fv;
             expect_gryo.y = getquadMessage().y.fv;
             expect_gryo.z = getquadMessage().z.fv;
-            expect_accz = 3;
             //姿态内环控制
             Attitude_InnerController(*gyroControl,expect_gryo);
             expect_torque = GetExpectThrust();
-            expect_accz = 9.8;//1/2 g
+            expect_accz = Gravity_Acceleration;
         }
         else if(getflyStatus() == drone_off)
         {

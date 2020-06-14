@@ -60,26 +60,41 @@ ThrustUav UavThrust;
 */
 void ThrustMixer(Vector3f_t ExpectTorque,float ExpectAccZ){
 
-	UavThrust.f1 = + 1.414f / (ARM_Length * 4.0f) * ExpectTorque.x  													//roll
-									+ 1.414f / (ARM_Length * 4.0f) * ExpectTorque.y                                  	//pitch
-										+ 1.0f / (Drag_Coeff * 4.0f) * ExpectTorque.z                                   //yaw	
+	// UavThrust.f1 = + 1.414f / (ARM_Length * 4.0f) * ExpectTorque.x  													//roll
+	// 								+ 1.414f / (ARM_Length * 4.0f) * ExpectTorque.y                                  	//pitch
+	// 									+ 1.0f / (Drag_Coeff * 4.0f) * ExpectTorque.z                                   //yaw	
+	// 										+ ExpectAccZ * Drone_Mass / 4.0f;			  											  						//mass		 																									
+	
+	// UavThrust.f2 = + 1.414f / (ARM_Length * 4.0f) * ExpectTorque.x
+	// 								- 1.414f / (ARM_Length * 4.0f) * ExpectTorque.y
+	// 									- 1.0f / (Drag_Coeff * 4.0f) * ExpectTorque.z
+	// 										+ ExpectAccZ * Drone_Mass / 4.0f;									
+
+	// UavThrust.f3 = - 1.414f / (ARM_Length * 4.0f) * ExpectTorque.x
+	// 								- 1.414f / (ARM_Length * 4.0f) * ExpectTorque.y
+	// 									+ 1.0f / (Drag_Coeff * 4.0f) * ExpectTorque.z
+	// 										+ ExpectAccZ * Drone_Mass / 4.0f;
+
+	// UavThrust.f4 = - 1.414f / (ARM_Length * 4.0f) * ExpectTorque.x 
+	// 								+ 1.414f / (ARM_Length * 4.0f) * ExpectTorque.y
+	// 									- 1.0f / (Drag_Coeff * 4.0f) * ExpectTorque.z
+	// 										+ ExpectAccZ * Drone_Mass / 4.0f;
+		
+	UavThrust.f1 =  + 1.414f / (ARM_Length * 4.0f) * ExpectTorque.y                             //pitch
 											+ ExpectAccZ * Drone_Mass / 4.0f;			  											  						//mass		 																									
 	
-	UavThrust.f2 = + 1.414f / (ARM_Length * 4.0f) * ExpectTorque.x
-									- 1.414f / (ARM_Length * 4.0f) * ExpectTorque.y
-										- 1.0f / (Drag_Coeff * 4.0f) * ExpectTorque.z
+	UavThrust.f2 =  - 1.414f / (ARM_Length * 4.0f) * ExpectTorque.y
 											+ ExpectAccZ * Drone_Mass / 4.0f;									
 
-	UavThrust.f3 = - 1.414f / (ARM_Length * 4.0f) * ExpectTorque.x
-									- 1.414f / (ARM_Length * 4.0f) * ExpectTorque.y
-										+ 1.0f / (Drag_Coeff * 4.0f) * ExpectTorque.z
+	UavThrust.f3 =  - 1.414f / (ARM_Length * 4.0f) * ExpectTorque.y
 											+ ExpectAccZ * Drone_Mass / 4.0f;
 
-	UavThrust.f4 = - 1.414f / (ARM_Length * 4.0f) * ExpectTorque.x 
-									+ 1.414f / (ARM_Length * 4.0f) * ExpectTorque.y
-										- 1.0f / (Drag_Coeff * 4.0f) * ExpectTorque.z
+	UavThrust.f4 =  + 1.414f / (ARM_Length * 4.0f) * ExpectTorque.y
 											+ ExpectAccZ * Drone_Mass / 4.0f;
-		
+
+
+
+
 	MotorThrust(UavThrust.f1,UavThrust.f2,UavThrust.f3,UavThrust.f4);
 }
 
@@ -155,9 +170,9 @@ void pwm_output(unsigned int Motor1,unsigned int Motor2,
 	Motor2+=4000;
 	Motor3+=4000;
 	Motor4+=4000;
-	TIM1->CCR1=Motor4;
-	TIM1->CCR2=Motor1;
-	TIM1->CCR3=Motor2;
-	TIM1->CCR4=Motor3;		 
+	TIM1->CCR4=Motor4;
+	TIM1->CCR3=Motor1;
+	TIM1->CCR2=Motor2;
+	TIM1->CCR1=Motor3;		 
 }
 

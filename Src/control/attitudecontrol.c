@@ -54,19 +54,19 @@ void Attitude_InnerController(Vector3f_t EstimateGyro,Vector3f_t Expect_Gyro){
 													 - AttitudeControlValue.Thrust.z;
 	
 	//计算出角速度环的控制量
-	AttitudeControlValue.Thrust.x = PID_GetP(&GyroxRate, ErrorGyro.x) + GyroxRate.kD * ErrorThrust.x
-												//轴间耦合
-												+ EstimateGyro.y * (Inertia_Wz * EstimateGyro.z) - (Inertia_Wy * EstimateGyro.y) * EstimateGyro.z
-															//角速度前馈
-															+ Inertia_Wx * GyroxFeedforwardLpf;
+	AttitudeControlValue.Thrust.x = PID_GetP(&GyroxRate, ErrorGyro.x) + GyroxRate.kD * ErrorThrust.x;
+												// //轴间耦合
+												// + EstimateGyro.y * (Inertia_Wz * EstimateGyro.z) - (Inertia_Wy * EstimateGyro.y) * EstimateGyro.z
+												// 			//角速度前馈
+												// 			+ Inertia_Wx * GyroxFeedforwardLpf;
 	
-	AttitudeControlValue.Thrust.y = PID_GetP(&GyroyRate, ErrorGyro.y) + GyroyRate.kD * ErrorThrust.y
-												+ (-(EstimateGyro.x * (Inertia_Wz * EstimateGyro.z) - (Inertia_Wx * EstimateGyro.x) * EstimateGyro.z))
-															+ Inertia_Wy * GyroyFeedforwardLpf;
+	AttitudeControlValue.Thrust.y = PID_GetP(&GyroyRate, ErrorGyro.y) + GyroyRate.kD * ErrorThrust.y;
+												// + (-(EstimateGyro.x * (Inertia_Wz * EstimateGyro.z) - (Inertia_Wx * EstimateGyro.x) * EstimateGyro.z))
+												// 			+ Inertia_Wy * GyroyFeedforwardLpf;
 															
-	AttitudeControlValue.Thrust.z = PID_GetP(&GyroyRate, ErrorGyro.z) + GyrozRate.kD * ErrorThrust.z
-												+ EstimateGyro.x * (Inertia_Wy * EstimateGyro.y) - (Inertia_Wx * EstimateGyro.x) * EstimateGyro.y
-												      + Inertia_Wz * GyrozFeedforwardLpf;
+	AttitudeControlValue.Thrust.z = PID_GetP(&GyroyRate, ErrorGyro.z) + GyrozRate.kD * ErrorThrust.z;
+												// + EstimateGyro.x * (Inertia_Wy * EstimateGyro.y) - (Inertia_Wx * EstimateGyro.x) * EstimateGyro.y
+												//       + Inertia_Wz * GyrozFeedforwardLpf;
 															
 }
 
